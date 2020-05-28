@@ -56,7 +56,7 @@ class PageController extends Controller
             'body' => 'required',
             'category_id' => 'required|exists:categories,id',
             'tags' => 'required|array',
-            'photos' => 'required|array',
+            'photos' => 'array',
             'tags.*' => 'exists:tags,id',
             'photos.*' => 'exists:photos,id'
         ]);
@@ -91,7 +91,8 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        return view('admin.pages.show', compact('page'));
     }
 
     /**

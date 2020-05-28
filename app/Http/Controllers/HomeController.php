@@ -29,13 +29,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::find(1);
+        // $user = User::find(1);
         // $info = InfoUser::all();
         // $category = Category::find(1);
         // $page = Page::find(1);
         // $photo = Photo::find(1);
         // $tag = Tag::find(1);
-        dd($user->categories());
+        // dd($user->categories());
         // dd($user->category->name);
         // dd($category);
 
