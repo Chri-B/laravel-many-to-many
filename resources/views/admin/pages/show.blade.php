@@ -3,6 +3,18 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                  <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav text-center">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="{{route('home')}}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.pages.index')}}">Index</a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}

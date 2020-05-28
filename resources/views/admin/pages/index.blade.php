@@ -3,15 +3,6 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @elseif (session('failure'))
-                    <div class="alert alert-danger">
-                        {{ session('failure') }}
-                    </div>
-                @endif
                 <nav class="navbar navbar-expand-lg navbar-light">
                   <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav text-center">
@@ -24,6 +15,15 @@
                     </ul>
                   </div>
                 </nav>
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @elseif (session('failure'))
+                    <div class="alert alert-danger">
+                        {{ session('failure') }}
+                    </div>
+                @endif
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -50,13 +50,19 @@
                                 <td>{{$page->created_at}}</td>
                                 <td>{{$page->updated_at}}</td>
                                 <td><a class="btn btn-primary" href="{{route('admin.pages.show', $page->id)}}">Visualizza</a></td>
-                                <td><a class="btn btn-light" href="{{route('admin.pages.edit', $page->id)}}">Modifica</a></td>
                                 <td>
+                                    @if(Auth::id() == $page->user_id)
+                                    <a class="btn btn-dark" href="{{route('admin.pages.edit', $page->id)}}">Modifica</a>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(Auth::id() == $page->user_id)
                                     <form action="{{route('admin.pages.destroy', $page->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <input class="btn btn-danger" type="submit" value="Elimina">
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
