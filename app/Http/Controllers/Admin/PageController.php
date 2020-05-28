@@ -147,7 +147,7 @@ class PageController extends Controller
 
         $page->fill($data);
         $updated = $page->update();
-        
+
         $page->tags()->sync($data['tags']);
         $page->photos()->sync($data['photos']);
 
@@ -168,6 +168,25 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        $userId = Auth::id();
+        $author = $page->user_id;
+
+        if ($userId != $author) {
+            return redirect()->route('admin.pages.index')
+                ->with('failure', 'Non sei autorizzato ad eliminare la pagina ' . $page->id);
+        }
+
+        $page->tags()->detach();
+        $page->photos()->detach();
+        $deleted = $page->delete();
+
+        if (!$deleted) {
+            return redirect()->back()
+                ->with('failure', 'Cancellazione della pagina annullata');
+        }
+
+        return redirect()->route('admin.pages.index')
+        ->with('success', 'Cancellazione della pagina ' . $page->id . ' riuscita');
     }
 }
