@@ -35,7 +35,10 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        $photos = Photo::all();
+        return view('admin.pages.create', compact('categories', 'tags', 'photos'));
     }
 
     /**
@@ -46,7 +49,38 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'title' => 'required|max:100',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'required|array',
+            'photos' => 'required|array',
+            'tags.*' => 'exists:tags,id',
+            'photos.*' => 'exists:photos,id'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.pages.create')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $page = new Page;
+        $data['slug'] = $data['slug'] = Str::slug($data['title'] , '-');
+        $data['user_id'] = Auth::id();
+        $page->fill($data);
+        $saved = $page->save();
+
+        if(!$saved) {
+            return redirect()->back();
+        }
+
+        $page->tags()->attach($data['tags']);
+        $page->photos()->attach($data['photos']);
+
+        return redirect()->route('admin.pages.show', $page->id);
     }
 
     /**
