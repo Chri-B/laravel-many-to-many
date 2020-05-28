@@ -3,20 +3,29 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form action="{{route('admin.pages.store')}}" method="post">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @elseif (session('failure'))
+                    <div class="alert alert-danger">
+                        {{ session('failure') }}
+                    </div>
+                @endif
+                <form action="{{route('admin.pages.update', $page->id)}}" method="post">
                     @csrf
-                    @method('POST')
+                    @method('PATCH')
                     <div class="form-group">
                         <label for="title">titolo</label>
-                        <input type="text" name="title" id="title" class="form-control" value="">
+                        <input type="text" name="title" id="title" class="form-control" value="{{old('title') ?? $page->title}}">
                     </div>
                     <div class="form-group">
                         <label for="summary">sommario</label>
-                        <input type="text" name="summary" id="summary" class="form-control" value="">
+                        <input type="text" name="summary" id="summary" class="form-control" value="{{old('title') ?? $page->summary}}">
                     </div>
                     <div class="form-group">
                         <label for="body">testo</label>
-                        <textarea name="body" cols="30" rown="10" id="body" class="form-control"></textarea>
+                        <textarea name="body" cols="30" rown="10" id="body" class="form-control">{{old('body') ?? $page->body}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="category_id">Categoria</label>
