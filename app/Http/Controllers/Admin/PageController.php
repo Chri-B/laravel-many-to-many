@@ -4,6 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
+use App\User;
+use App\Category;
+use App\InfoUser;
+use App\Page;
+use App\Photo;
+use App\Tag;
 
 class PageController extends Controller
 {
@@ -14,7 +24,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        $pages = Page::all();
+        return view('admin.pages.index', compact('pages'));
     }
 
     /**

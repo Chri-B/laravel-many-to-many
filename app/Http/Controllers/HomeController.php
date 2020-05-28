@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Category;
+use App\InfoUser;
+use App\Page;
+use App\Photo;
+use App\Tag;
 
 class HomeController extends Controller
 {
@@ -23,6 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // $user = User::find(1);
+        // $info = InfoUser::find(1);
+        // $category = Category::find(1);
+        // $page = Page::find(1);
+        // $photo = Photo::find(1);
+        // $tag = Tag::find(1);
+        // dd($tag);
+        // dd($user->info->bio);
+        // dd($user->tags);
+        
         return view('home');
     }
 }
