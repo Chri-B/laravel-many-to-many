@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Mail\SendNewMail;
+use Illuminate\Support\Facades\Mail;
 
 use App\User;
 use App\Category;
@@ -25,6 +27,7 @@ class PageController extends Controller
     public function index()
     {
         $pages = Page::all();
+        // $pages = Page::paginate(); --> + aggiungere links su view index per navigazione pagine
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -80,6 +83,8 @@ class PageController extends Controller
 
         $page->tags()->attach($data['tags']);
         $page->photos()->attach($data['photos']);
+
+        Mail::to('mail@mail.it')->send(new SendNewMail($page));
 
         return redirect()->route('admin.pages.show', $page->id);
     }

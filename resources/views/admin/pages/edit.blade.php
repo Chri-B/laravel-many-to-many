@@ -31,14 +31,15 @@
                         <label for="category_id">Categoria</label>
                         <select class="" id="category_id" name="category_id">
                             @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                {{-- controllo che l'old(category_id) sia vuoto [se non lo fosse, diventa selected], se lo è controllo allora che l'id della categia stampata non sia già presente nel record "category_id" della oagina che sto modificando --}}
+                                <option value="{{$category->id}}" {{ (!empty(old('category_id'))) || $category->id == $page->category_id ? 'selected' : '' }}>{{$category->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         @foreach ($tags as $tag)
                             <label for="tags-{{$tag->id}}">{{$tag->name}}</label>
-                            <input type="checkbox" name="tags[]" id="tags-{{$tag->id}}" value="{{$tag->id}}">
+                            <input type="checkbox" name="tags[]" id="tags-{{$tag->id}}" value="{{$tag->id}}" {{ ((is_array(old('tags')) && in_array($tag->id, old('tags'))) || $page->tags->contains($tag->id)) ? 'checked' : ''}}>
                         @endforeach
                     </div>
                     <div class="form-group">
