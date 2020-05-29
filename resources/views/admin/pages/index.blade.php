@@ -24,6 +24,7 @@
                         {{ session('failure') }}
                     </div>
                 @endif
+                {{$pages->links()}}
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -68,6 +69,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$pages->links()}}
             </div>
         </div>
     </div>

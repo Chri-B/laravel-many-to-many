@@ -26,7 +26,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::all();
+        $pages = Page::paginate(10);
         // $pages = Page::paginate(); --> + aggiungere links su view index per navigazione pagine
         return view('admin.pages.index', compact('pages'));
     }
@@ -72,7 +72,7 @@ class PageController extends Controller
         }
 
         $page = new Page;
-        $data['slug'] = $data['slug'] = Str::slug($data['title'] , '-');
+        $data['slug'] = Str::slug($data['title'] , '-');
         $data['user_id'] = Auth::id();
         $page->fill($data);
         $saved = $page->save();
